@@ -161,7 +161,6 @@ class CNNtoRNN(nn.Module):
     def caption_image(self, image, vocabulary, max_length=50):
         
         with torch.inference_mode():
-            # add batch dimension to the image
             features = self.encoderCNN(image)
             caption = self.decoderRNN.caption_image(features, vocabulary, max_length)
 
