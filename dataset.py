@@ -7,6 +7,7 @@ from torchvision import transforms
 import spacy # For tokenizer
 import pandas as pd # For reading annotation file
 from PIL import Image # Load images
+import pickle # To save and load the vocab
 
 # Load spacy english NLP model
 spacy_eng = spacy.load('en_core_web_sm')
@@ -59,6 +60,15 @@ class Vocabulary:
             self.stoi[token] if token in self.stoi else self.stoi["<UNK>"]
             for token in tokenized_text
         ]
+    
+    def save_vocabulary(self, file_path):
+        with open(file_path, 'wb') as f:
+            pickle.dump(self, f)
+
+    @staticmethod
+    def load_vocabulary(file_path):
+        with open(file_path, 'rb') as f:
+            return pickle.load(f)
 
 # Base transform
 base_transform = transforms.Compose(
